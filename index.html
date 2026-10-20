@@ -1,0 +1,819 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#101827">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Ndiaye Caisse">
+<link rel="manifest" href="manifest.webmanifest">
+<title>NDIAYE CAISSE PLUS</title>
+<style>
+:root{--bg:#0a101c;--panel:#111c2e;--panel2:#17263d;--line:#2a3c57;--text:#f4f7fb;--muted:#9eacc0;--green:#26c281;--gold:#f4c45a;--red:#ff6675;--blue:#70a7ff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+header{position:sticky;top:0;z-index:5;background:#101827ed;backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:13px 16px}
+.top{display:flex;align-items:center;gap:10px;max-width:1200px;margin:auto}.logo{width:42px;height:42px;border-radius:13px;background:var(--green);display:grid;place-items:center;color:#062819;font-weight:950}.top h1{font-size:18px;margin:0}.top p{margin:2px 0 0;font-size:11px;color:var(--muted)}.spacer{flex:1}
+main{max-width:1200px;margin:auto;padding:14px;display:grid;grid-template-columns:1.15fr .85fr;gap:13px}.panel{background:var(--panel);border:1px solid var(--line);border-radius:17px;padding:14px;min-width:0}.wide{grid-column:1/-1}.head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.head h2{font-size:16px;margin:0}.muted{color:var(--muted);font-size:12px}
+nav{max-width:1200px;margin:12px auto 0;display:flex;gap:7px;overflow:auto;padding:0 14px}.navbtn{white-space:nowrap;border:1px solid var(--line);background:var(--panel);color:var(--muted);padding:9px 12px;border-radius:10px}.navbtn.active{border-color:var(--green);color:var(--text);background:#17332f}
+input,select{width:100%;min-width:0;background:#0a1424;color:var(--text);border:1px solid var(--line);border-radius:10px;padding:11px;font:inherit}label{display:block;color:var(--muted);font-size:12px;margin:9px 0 5px}
+button{font:inherit;cursor:pointer}.primary{border:0;background:var(--green);color:#062819;font-weight:850;border-radius:10px;padding:11px 13px}.secondary{background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:10px;padding:10px}.danger{background:#3a1c2b;color:#ffb5c1;border:1px solid #633146;border-radius:8px;padding:7px}.gridproducts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.prod{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:11px;text-align:left;color:var(--text);min-height:94px}.prod .emoji{font-size:22px;display:block;margin-bottom:5px}.prod strong{font-size:13px;display:block}.price{color:var(--green);font-weight:850;margin-top:5px;display:block}
+.cart{display:flex;flex-direction:column;gap:8px;margin:12px 0}.cartline{display:grid;grid-template-columns:1fr auto;gap:8px;background:var(--panel2);padding:10px;border-radius:11px}.cartline strong{font-size:13px}.cartline small{display:block;color:var(--muted);margin-top:3px}.qty{display:flex;align-items:center;gap:7px;margin-top:7px}.qty button{background:#0a1424;border:1px solid var(--line);color:white;border-radius:7px;width:27px;height:27px}
+.totalbox{border-top:1px solid var(--line);padding-top:11px}.totalrow{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:8px 0;color:var(--muted)}.totalrow strong{color:var(--text)}.big{font-size:24px;color:var(--green)!important;font-weight:950}.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.full{grid-column:1/-1}
+.formgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}.stat{padding:13px;background:var(--panel2);border:1px solid var(--line);border-radius:12px}.stat span{display:block;color:var(--muted);font-size:11px}.stat strong{display:block;margin-top:7px;font-size:19px}.rowitem{padding:11px 0;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:13px}.rowitem small{display:block;color:var(--muted);margin-top:3px}.badge{display:inline-block;border-radius:20px;background:#203b34;color:#9cf0c9;padding:4px 8px;font-size:11px}.warn{padding:11px;background:#30291b;color:#ffe1a0;border-radius:10px;font-size:12px;line-height:1.5;margin-top:12px}.info{padding:11px;background:#172b40;color:#b8d8ff;border-radius:10px;font-size:12px;line-height:1.5;margin-top:12px}.empty{text-align:center;color:var(--muted);padding:24px 5px;font-size:13px}
+.view{display:none}.view.active{display:block}.noticefooter{text-align:center;color:var(--muted);font-size:11px;padding:12px 15px 25px}
+@media(max-width:760px){main{grid-template-columns:1fr;padding:10px}.wide{grid-column:auto}.gridproducts{grid-template-columns:repeat(2,minmax(0,1fr))}.formgrid{grid-template-columns:1fr 1fr}.stats{grid-template-columns:1fr 1fr}.top h1{font-size:16px}}
+@media print{body{background:white;color:black}header,nav,main,.noticefooter,#authScreen{display:none!important}#printReceipt{display:block!important;color:black;font:12px monospace;width:72mm;margin:0 auto}.center{text-align:center}.sep{border-top:1px dashed black;margin:7px 0}.rline{display:flex;justify-content:space-between;gap:6px;margin:4px 0}}
+#printReceipt{display:none}
+
+/* Écran de connexion */
+#authScreen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #0a101c;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+}
+#authCard {
+  width: 100%;
+  max-width: 380px;
+  padding: 24px;
+  border: 1px solid #2a3c57;
+  border-radius: 18px;
+  background: #111c2e;
+  color: #f4f7fb;
+  font-family: system-ui, sans-serif;
+}
+#authCard input, #authCard select {
+  width: 100%;
+  box-sizing: border-box;
+  margin: 8px 0;
+  padding: 13px;
+  border-radius: 9px;
+  background: #0a1424;
+  color: white;
+  border: 1px solid #2a3c57;
+}
+#authCard button {
+  width: 100%;
+  margin-top: 10px;
+  padding: 12px;
+  border: 0;
+  border-radius: 9px;
+  background: #26c281;
+  font-weight: bold;
+  color: #062819;
+}
+#authError { color: #ff6675; min-height: 20px; }
+</style>
+</head>
+<body>
+
+<!-- Écran de connexion (placé AVANT le script) -->
+<div id="authScreen">
+  <div id="authCard">
+    <h2>🔐 NDIAYE CAISSE PLUS</h2>
+    <p>Connexion sécurisée</p>
+    <label for="authUser">Compte</label>
+    <select id="authUser">
+      <option value="admin">Administrateur</option>
+    </select>
+    <label for="authPin">Code PIN</label>
+    <input id="authPin" type="password" inputmode="numeric" maxlength="6" placeholder="Saisir le PIN">
+    <button id="authSubmit">Se connecter</button>
+    <p id="authError"></p>
+  </div>
+</div>
+
+<header>
+  <div class="top">
+    <div class="logo">NC+</div>
+    <div>
+      <h1>NDIAYE CAISSE PLUS</h1>
+      <p>Multi-commerce • Stock • Paiements • Tickets</p>
+    </div>
+    <div class="spacer"></div>
+    <button class="secondary" id="installBtn" hidden>Installer</button>
+  </div>
+</header>
+
+<nav>
+  <button class="navbtn active" data-view="cash">🛒 Caisse</button>
+  <button class="navbtn" data-view="productsView">📦 Produits & stock</button>
+  <button class="navbtn" data-view="salesView">📈 Ventes</button>
+  <button class="navbtn" data-view="settingsView">⚙️ Paramètres</button>
+</nav>
+
+<main>
+  <section id="cash" class="view active">
+    <div class="panel">
+      <div class="head">
+        <h2>Catalogue</h2>
+        <span class="muted">Touchez un produit</span>
+      </div>
+      <div class="gridproducts" id="productGrid"></div>
+      <div class="info">Les exemples sont modifiables. Le stock diminue automatiquement lors d'une vente encaissée.</div>
+    </div>
+    <div class="panel">
+      <div class="head">
+        <h2>Ticket en cours</h2>
+        <button class="secondary" onclick="clearCart()">Vider</button>
+      </div>
+      <div class="muted" id="ticketNo">Nouvelle vente</div>
+      <div class="cart" id="cart"></div>
+      <div class="totalbox">
+        <div class="totalrow"><span>Sous-total</span><strong id="subtotal">0 FCFA</strong></div>
+        <div class="totalrow">
+          <label for="discount" style="margin:0">Remise (FCFA)</label>
+          <input id="discount" type="number" min="0" value="0" style="width:120px" oninput="renderCart()">
+        </div>
+        <div class="totalrow"><span>Total à payer</span><strong class="big" id="total">0 FCFA</strong></div>
+        <label for="payment">Mode de paiement</label>
+        <select id="payment">
+          <option>Espèces</option>
+          <option>Wave</option>
+          <option>Orange Money</option>
+          <option>Carte bancaire</option>
+          <option>Autre</option>
+        </select>
+        <label for="paid">Montant reçu (FCFA)</label>
+        <input id="paid" type="number" min="0" placeholder="Montant reçu" oninput="renderChange()">
+        <div class="totalrow"><span>Monnaie à rendre</span><strong id="change">0 FCFA</strong></div>
+        <div class="actions">
+          <button class="primary full" onclick="finishSale()">✓ Encaisser la vente</button>
+          <button class="secondary" onclick="printTest()">🖨️ Tester ticket</button>
+          <button class="secondary" onclick="exportCSV()">Exporter CSV</button>
+        </div>
+        <div class="warn">L'impression via le navigateur dépend du système et du pilote de l'imprimante Wi‑Fi. Le navigateur ouvre la fenêtre d'impression; la connexion réseau seule ne garantit pas l'impression directe.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="productsView" class="view">
+    <div class="panel">
+      <div class="head">
+        <h2>Ajouter / modifier le catalogue</h2>
+        <span class="badge">Stock actif</span>
+      </div>
+      <div class="formgrid">
+        <div>
+          <label>Nom du produit</label>
+          <input id="pName" placeholder="Ex. Café">
+        </div>
+        <div>
+          <label>Prix de vente (FCFA)</label>
+          <input id="pPrice" type="number" min="0" placeholder="1500">
+        </div>
+        <div>
+          <label>Quantité en stock</label>
+          <input id="pStock" type="number" min="0" placeholder="20">
+        </div>
+      </div>
+      <div class="actions">
+        <button class="primary" onclick="saveProduct()">Ajouter au catalogue</button>
+        <button class="secondary" onclick="resetProductForm()">Effacer le formulaire</button>
+      </div>
+      <div id="stockList" style="margin-top:14px"></div>
+    </div>
+  </section>
+
+  <section id="salesView" class="view">
+    <div class="panel">
+      <div class="head">
+        <h2>Tableau de bord</h2>
+        <button class="secondary" onclick="exportCSV()">Exporter CSV</button>
+      </div>
+      <div class="stats">
+        <div class="stat"><span>Chiffre d'affaires</span><strong id="statRevenue">0</strong></div>
+        <div class="stat"><span>Nombre de ventes</span><strong id="statCount">0</strong></div>
+        <div class="stat"><span>Stock faible (≤ 5)</span><strong id="statLow">0</strong></div>
+        <div class="stat"><span>Wave + Orange Money</span><strong id="statMobile">0</strong></div>
+      </div>
+      <h3 style="font-size:14px;margin-top:22px">Historique des ventes</h3>
+      <div id="salesList"></div>
+    </div>
+  </section>
+
+  <section id="settingsView" class="view">
+    <div class="panel">
+      <div class="head">
+        <h2>Paramètres du commerce</h2>
+        <span class="muted">Enregistrés sur cet appareil</span>
+      </div>
+      <label>Nom du commerce sur les tickets</label>
+      <input id="storeName" placeholder="NDIAYE BUSINESS">
+      <label>Adresse / téléphone (facultatif)</label>
+      <input id="storeInfo" placeholder="Adresse et téléphone">
+      <label>Devise</label>
+      <select id="currency"><option>FCFA</option></select>
+      <div class="actions">
+        <button class="primary" onclick="saveSettings()">Enregistrer les paramètres</button>
+        <button class="secondary" onclick="backupData()">Sauvegarder les données JSON</button>
+      </div>
+      <div class="info">Wave et Orange Money sont ici des modes de paiement enregistrés manuellement. Cette démo ne vérifie pas les transactions auprès de Wave ou Orange Money et n'encaisse pas automatiquement.</div>
+      <div class="warn">Les données sont conservées dans le stockage local du navigateur sur cet appareil. Pour un vrai usage multi-appareils, il faudra ajouter une base de données et des comptes sécurisés.</div>
+    </div>
+  </section>
+</main>
+
+<div class="noticefooter">NDIAYE BUSINESS • Prototype HTML installable • Données de démonstration</div>
+<div id="printReceipt"></div>
+
+<script>
+const KEY = 'ndiaye-caisse-plus-v1';
+const starter = [
+  {id:1,name:'Eau minérale',price:500,stock:24,emoji:'💧'},
+  {id:2,name:'Jus',price:1000,stock:15,emoji:'🧃'},
+  {id:3,name:'Pain',price:200,stock:30,emoji:'🥖'},
+  {id:4,name:'Riz (1 kg)',price:700,stock:20,emoji:'🍚'},
+  {id:5,name:'Savon',price:500,stock:12,emoji:'🧼'},
+  {id:6,name:'Lait',price:1200,stock:8,emoji:'🥛'}
+];
+let state = {products:starter,sales:[],settings:{name:'NDIAYE BUSINESS',info:''},nextId:7,nextSale:1};
+let cart = [];
+
+function load() {
+  try {
+    const x = JSON.parse(localStorage.getItem(KEY));
+    if (x && Array.isArray(x.products)) state = {...state, ...x};
+  } catch (e) {}
+}
+function persist() {
+  try {
+    localStorage.setItem(KEY, JSON.stringify(state));
+  } catch (e) {
+    alert('Stockage indisponible dans ce navigateur. Exportez une sauvegarde.');
+  }
+}
+const money = n => Math.round(Number(n) || 0).toLocaleString('fr-FR') + ' FCFA';
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+function nav(view) {
+  document.querySelectorAll('.view').forEach(x => x.classList.toggle('active', x.id === view));
+  document.querySelectorAll('.navbtn').forEach(x => x.classList.toggle('active', x.dataset.view === view));
+  renderAll();
+}
+document.querySelectorAll('.navbtn').forEach(b => b.addEventListener('click', () => nav(b.dataset.view)));
+
+function renderProducts() {
+  const el = document.getElementById('productGrid');
+  el.innerHTML = state.products.map(p => `
+    <button class="prod" onclick="addCart(${p.id})" ${p.stock <= 0 ? 'disabled' : ''}>
+      <span class="emoji">${p.emoji || '📦'}</span>
+      <strong>${esc(p.name)}</strong>
+      <span class="price">${money(p.price)}</span>
+      <small class="muted">Stock : ${p.stock}</small>
+    </button>
+  `).join('');
+}
+
+function addCart(id) {
+  const p = state.products.find(x => x.id === id);
+  if (!p) return;
+  const line = cart.find(x => x.id === id);
+  const qty = line ? line.qty : 0;
+  if (qty >= p.stock) {
+    alert('Stock insuffisant pour ' + p.name);
+    return;
+  }
+  if (line) line.qty++;
+  else cart.push({id: p.id, name: p.name, price: p.price, qty: 1});
+  renderCart();
+}
+
+function changeQty(id, d) {
+  const line = cart.find(x => x.id === id);
+  const p = state.products.find(x => x.id === id);
+  if (!line) return;
+  if (d > 0 && line.qty >= p.stock) {
+    alert('Stock insuffisant');
+    return;
+  }
+  line.qty += d;
+  if (line.qty <= 0) cart = cart.filter(x => x.id !== id);
+  renderCart();
+}
+
+function clearCart() {
+  cart = [];
+  document.getElementById('discount').value = 0;
+  document.getElementById('paid').value = '';
+  renderCart();
+}
+
+function totals() {
+  const subtotal = cart.reduce((s, p) => s + p.price * p.qty, 0);
+  const discount = Math.max(0, Number(document.getElementById('discount').value) || 0);
+  return {subtotal, discount, total: Math.max(0, subtotal - discount)};
+}
+
+function renderCart() {
+  const el = document.getElementById('cart');
+  el.innerHTML = cart.length ? cart.map(p => `
+    <div class="cartline">
+      <div>
+        <strong>${esc(p.name)}</strong>
+        <small>${money(p.price)} / unité</small>
+        <div class="qty">
+          <button onclick="changeQty(${p.id},-1)">−</button>
+          <b>${p.qty}</b>
+          <button onclick="changeQty(${p.id},1)">+</button>
+        </div>
+      </div>
+      <div style="text-align:right">
+        <strong>${money(p.price * p.qty)}</strong><br>
+        <button class="danger" style="margin-top:7px" onclick="changeQty(${p.id},-${p.qty})">Retirer</button>
+      </div>
+    </div>
+  `).join('') : '<div class="empty">Ticket vide. Ajoutez des produits.</div>';
+  const t = totals();
+  document.getElementById('subtotal').textContent = money(t.subtotal);
+  document.getElementById('total').textContent = money(t.total);
+  renderChange();
+}
+
+function renderChange() {
+  const paid = Number(document.getElementById('paid').value) || 0;
+  const total = totals().total;
+  const el = document.getElementById('change');
+  el.textContent = money(Math.max(0, paid - total));
+  el.style.color = paid >= total ? 'var(--green)' : 'var(--gold)';
+}
+
+function saveProduct() {
+  const name = document.getElementById('pName').value.trim();
+  const price = Number(document.getElementById('pPrice').value);
+  const stock = Number(document.getElementById('pStock').value);
+  if (!name || !Number.isFinite(price) || price < 0 || !Number.isFinite(stock) || stock < 0 || !Number.isInteger(stock)) {
+    alert('Remplissez le nom, le prix et un stock entier valide.');
+    return;
+  }
+  state.products.push({id: state.nextId++, name, price, stock, emoji: '📦'});
+  persist();
+  resetProductForm();
+  renderAll();
+  alert('Produit ajouté.');
+}
+
+function resetProductForm() {
+  ['pName', 'pPrice', 'pStock'].forEach(id => document.getElementById(id).value = '');
+}
+
+function adjustStock(id, delta) {
+  const p = state.products.find(x => x.id === id);
+  if (!p) return;
+  const n = p.stock + delta;
+  if (n < 0) {
+    alert('Le stock ne peut pas être négatif.');
+    return;
+  }
+  p.stock = n;
+  persist();
+  renderAll();
+}
+
+function deleteProduct(id) {
+  if (cart.some(x => x.id === id)) {
+    alert('Retirez ce produit du ticket avant de le supprimer.');
+    return;
+  }
+  if (!confirm('Supprimer ce produit du catalogue ?')) return;
+  state.products = state.products.filter(x => x.id !== id);
+  persist();
+  renderAll();
+}
+
+function renderStock() {
+  document.getElementById('stockList').innerHTML = state.products.map(p => `
+    <div class="rowitem">
+      <div>
+        <strong>${esc(p.name)}</strong>
+        <small>${money(p.price)} • ${p.stock <= 5 ? 'Stock faible' : 'En stock'}</small>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px">
+        <button class="secondary" onclick="adjustStock(${p.id},-1)">−</button>
+        <strong>${p.stock}</strong>
+        <button class="secondary" onclick="adjustStock(${p.id},1)">+</button>
+        <button class="danger" onclick="deleteProduct(${p.id})">×</button>
+      </div>
+    </div>
+  `).join('') || '<div class="empty">Aucun produit.</div>';
+}
+
+function receipt(s) {
+  return `
+    <div class="center">
+      <strong style="font-size:16px">${esc(state.settings.name || 'NDIAYE CAISSE')}</strong><br>
+      ${esc(state.settings.info || '')}<br>
+      Merci pour votre achat
+    </div>
+    <div class="sep"></div>
+    Ticket #${s.id}<br>${esc(s.date)}
+    <div class="sep"></div>
+    ${s.items.map(p => `
+      <div>${esc(p.name)} x${p.qty}</div>
+      <div class="rline"><span>${money(p.price)} / unité</span><strong>${money(p.price * p.qty)}</strong></div>
+    `).join('')}
+    <div class="sep"></div>
+    <div class="rline"><span>Sous-total</span><strong>${money(s.subtotal)}</strong></div>
+    <div class="rline"><span>Remise</span><strong>${money(s.discount)}</strong></div>
+    <div class="rline" style="font-size:15px"><strong>TOTAL</strong><strong>${money(s.total)}</strong></div>
+    <div class="rline"><span>Paiement</span><span>${esc(s.payment)}</span></div>
+    <div class="rline"><span>Reçu</span><span>${money(s.paid)}</span></div>
+    <div class="rline"><span>Monnaie</span><span>${money(Math.max(0, s.paid - s.total))}</span></div>
+    <div class="sep"></div>
+    <div class="center">À bientôt !</div>
+  `;
+}
+
+function printTest() {
+  const t = totals();
+  const s = {
+    id: 'TEST',
+    date: new Date().toLocaleString('fr-FR'),
+    items: cart.length ? cart : [{name: 'Article test', qty: 1, price: 1000}],
+    subtotal: t.subtotal || 1000,
+    discount: t.discount,
+    total: t.total || 1000,
+    payment: document.getElementById('payment').value,
+    paid: Number(document.getElementById('paid').value) || t.total || 1000
+  };
+  document.getElementById('printReceipt').innerHTML = receipt(s);
+  window.print();
+}
+
+function finishSale() {
+  if (!cart.length) {
+    alert('Ajoutez au moins un produit.');
+    return;
+  }
+  const t = totals();
+  const payment = document.getElementById('payment').value;
+  const paid = Number(document.getElementById('paid').value) || 0;
+  if (payment === 'Espèces' && paid < t.total && !confirm('Le montant reçu est inférieur au total. Enregistrer quand même ?')) return;
+  for (const line of cart) {
+    const p = state.products.find(x => x.id === line.id);
+    if (!p || p.stock < line.qty) {
+      alert('Stock insuffisant pour ' + line.name);
+      return;
+    }
+  }
+  const s = {
+    id: state.nextSale++,
+    date: new Date().toLocaleString('fr-FR'),
+    items: cart.map(x => ({...x})),
+    subtotal: t.subtotal,
+    discount: t.discount,
+    total: t.total,
+    payment,
+    paid
+  };
+  cart.forEach(line => {
+    state.products.find(p => p.id === line.id).stock -= line.qty;
+  });
+  state.sales.unshift(s);
+  persist();
+  document.getElementById('printReceipt').innerHTML = receipt(s);
+  clearCart();
+  renderAll();
+  if (confirm('Vente enregistrée et stock mis à jour. Imprimer le ticket ?')) window.print();
+}
+
+function renderSales() {
+  const sales = state.sales;
+  document.getElementById('statRevenue').textContent = money(sales.reduce((a, s) => a + s.total, 0));
+  document.getElementById('statCount').textContent = sales.length;
+  document.getElementById('statLow').textContent = state.products.filter(p => p.stock <= 5).length;
+  document.getElementById('statMobile').textContent = money(
+    sales.filter(s => ['Wave', 'Orange Money'].includes(s.payment)).reduce((a, s) => a + s.total, 0)
+  );
+  document.getElementById('salesList').innerHTML = sales.length ? sales.map(s => `
+    <div class="rowitem">
+      <div>
+        <strong>Ticket #${s.id} — ${money(s.total)}</strong>
+        <small>${esc(s.date)} • ${esc(s.payment)} • ${s.items.map(p => esc(p.name) + ' ×' + p.qty).join(', ')}</small>
+      </div>
+      <button class="secondary" onclick="reprint(${s.id})">Ticket</button>
+    </div>
+  `).join('') : '<div class="empty">Aucune vente enregistrée.</div>';
+}
+
+function reprint(id) {
+  const s = state.sales.find(x => x.id === id);
+  if (!s) return;
+  document.getElementById('printReceipt').innerHTML = receipt(s);
+  window.print();
+}
+
+function renderSettings() {
+  document.getElementById('storeName').value = state.settings.name || '';
+  document.getElementById('storeInfo').value = state.settings.info || '';
+}
+
+function saveSettings() {
+  state.settings.name = document.getElementById('storeName').value.trim() || 'NDIAYE BUSINESS';
+  state.settings.info = document.getElementById('storeInfo').value.trim();
+  persist();
+  renderAll();
+  alert('Paramètres enregistrés.');
+}
+
+function exportCSV() {
+  if (!state.sales.length) {
+    alert('Aucune vente à exporter.');
+    return;
+  }
+  const rows = [
+    ['Ticket', 'Date', 'Produits', 'Sous-total', 'Remise', 'Total FCFA', 'Paiement', 'Montant reçu'],
+    ...state.sales.map(s => [
+      s.id, s.date,
+      s.items.map(p => p.name + ' x' + p.qty).join(' | '),
+      s.subtotal, s.discount, s.total, s.payment, s.paid
+    ])
+  ];
+  const csv = rows.map(r => r.map(v => '"' + String(v).replace(/"/g, '""') + '"').join(';')).join('\n');
+  download('ndiaye-caisse-ventes.csv', '\ufeff' + csv, 'text/csv;charset=utf-8;');
+}
+
+function backupData() {
+  download('ndiaye-caisse-sauvegarde.json', JSON.stringify(state, null, 2), 'application/json');
+}
+
+function download(name, data, type) {
+  const a = document.createElement('a');
+  const u = URL.createObjectURL(new Blob([data], {type}));
+  a.href = u;
+  a.download = name;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(u), 1000);
+}
+
+function renderAll() {
+  renderProducts();
+  renderCart();
+  renderStock();
+  renderSales();
+  renderSettings();
+}
+
+load();
+renderAll();
+
+/* ========== AUTHENTIFICATION ========== */
+const AUTH_KEY = 'ndiaye-caisse-auth-v1';
+let authData;
+try {
+  authData = JSON.parse(localStorage.getItem(AUTH_KEY));
+} catch (e) {}
+
+if (!authData || !authData.users || !authData.users.admin) {
+  authData = {
+    users: {
+      admin: {
+        name: 'Administrateur',
+        pin: '2468',
+        role: 'admin',
+        active: true
+      }
+    }
+  };
+  localStorage.setItem(AUTH_KEY, JSON.stringify(authData));
+}
+
+let currentUser = null;
+let authFailures = 0;
+let lockedUntil = 0;
+
+const authScreen = document.getElementById('authScreen');
+const authSelect = document.getElementById('authUser');
+const authPinInput = document.getElementById('authPin');
+const authError = document.getElementById('authError');
+
+function saveAuthData() {
+  localStorage.setItem(AUTH_KEY, JSON.stringify(authData));
+}
+
+function refreshLoginUsers() {
+  authSelect.innerHTML = '';
+  Object.entries(authData.users)
+    .filter(([id, u]) => u.active)
+    .forEach(([id, u]) => {
+      const option = document.createElement('option');
+      option.value = id;
+      option.textContent = u.name;
+      authSelect.appendChild(option);
+    });
+}
+
+function showLogin() {
+  currentUser = null;
+  authScreen.style.display = 'grid';
+  authPinInput.value = '';
+  authError.textContent = '';
+  refreshLoginUsers();
+}
+
+function login() {
+  if (Date.now() < lockedUntil) {
+    authError.textContent = 'Trop de tentatives. Réessayez dans une minute.';
+    return;
+  }
+
+  const user = authData.users[authSelect.value];
+  if (!user || !user.active || user.pin !== authPinInput.value) {
+    authFailures++;
+    if (authFailures >= 5) {
+      lockedUntil = Date.now() + 60000;
+      authFailures = 0;
+    }
+    authError.textContent = 'Compte ou PIN incorrect.';
+    return;
+  }
+
+  authFailures = 0;
+  currentUser = {
+    id: authSelect.value,
+    name: user.name,
+    role: user.role
+  };
+  authScreen.style.display = 'none';
+  applyPermissions();
+}
+
+document.getElementById('authSubmit').addEventListener('click', login);
+authPinInput.addEventListener('keydown', e => {
+  if (e.key === 'Enter') login();
+});
+
+function isAdmin() {
+  return currentUser && currentUser.role === 'admin';
+}
+
+function applyPermissions() {
+  document.querySelectorAll('.navbtn').forEach(button => {
+    const adminOnly = ['productsView', 'salesView', 'settingsView'].includes(button.dataset.view);
+    button.hidden = !isAdmin() && adminOnly;
+  });
+  nav('cash');
+}
+
+/* Restriction des fonctions sensibles */
+const originalSaveProduct = saveProduct;
+saveProduct = function () {
+  if (!isAdmin()) {
+    alert('Réservé à l’administrateur.');
+    return;
+  }
+  originalSaveProduct();
+};
+
+const originalAdjustStock = adjustStock;
+adjustStock = function (id, delta) {
+  if (!isAdmin()) {
+    alert('Réservé à l’administrateur.');
+    return;
+  }
+  originalAdjustStock(id, delta);
+};
+
+const originalDeleteProduct = deleteProduct;
+deleteProduct = function (id) {
+  if (!isAdmin()) {
+    alert('Réservé à l’administrateur.');
+    return;
+  }
+  originalDeleteProduct(id);
+};
+
+const originalSaveSettings = saveSettings;
+saveSettings = function () {
+  if (!isAdmin()) {
+    alert('Réservé à l’administrateur.');
+    return;
+  }
+  originalSaveSettings();
+};
+
+const originalBackupData = backupData;
+backupData = function () {
+  if (!isAdmin()) {
+    alert('Réservé à l’administrateur.');
+    return;
+  }
+  originalBackupData();
+};
+
+/* Panneau de gestion des comptes dans Paramètres */
+const authPanel = document.createElement('section');
+authPanel.className = 'panel wide';
+authPanel.innerHTML = `
+  <h2>🔐 Sécurité et comptes</h2>
+  <p>Connecté : <strong id="whoAmI"></strong></p>
+  <button class="secondary" id="logoutBtn">Se déconnecter</button>
+  <hr>
+  <h3>Changer le PIN administrateur</h3>
+  <input id="oldAdminPin" type="password" inputmode="numeric" placeholder="PIN actuel">
+  <input id="newAdminPin" type="password" inputmode="numeric" maxlength="6" placeholder="Nouveau PIN (4 à 6 chiffres)">
+  <button class="primary" id="changeAdminPin">Changer le PIN</button>
+  <hr>
+  <h3>Créer un compte caissier</h3>
+  <input id="cashierName" placeholder="Nom du caissier">
+  <input id="cashierPin" type="password" inputmode="numeric" maxlength="6" placeholder="PIN individuel (4 à 6 chiffres)">
+  <button class="primary" id="createCashier">Créer le compte</button>
+  <div id="cashierList"></div>
+`;
+document.getElementById('settingsView').appendChild(authPanel);
+
+function renderCashiers() {
+  const list = document.getElementById('cashierList');
+  if (!list) return;
+  list.innerHTML = Object.entries(authData.users)
+    .filter(([id]) => id !== 'admin')
+    .map(([id, u]) => `
+      <div class="rowitem">
+        <span>${u.name} — ${u.active ? 'Actif' : 'Désactivé'}</span>
+        <button class="secondary" data-toggle-user="${id}">
+          ${u.active ? 'Désactiver' : 'Activer'}
+        </button>
+      </div>
+    `).join('');
+  list.querySelectorAll('[data-toggle-user]').forEach(button => {
+    button.onclick = () => {
+      if (!isAdmin()) return;
+      const u = authData.users[button.dataset.toggleUser];
+      u.active = !u.active;
+      saveAuthData();
+      renderCashiers();
+    };
+  });
+}
+
+document.getElementById('changeAdminPin').onclick = () => {
+  if (!isAdmin()) return alert('Accès administrateur requis.');
+  const oldPin = document.getElementById('oldAdminPin').value;
+  const newPin = document.getElementById('newAdminPin').value;
+  if (oldPin !== authData.users.admin.pin) return alert('PIN actuel incorrect.');
+  if (!/^\d{4,6}$/.test(newPin)) return alert('Choisissez 4 à 6 chiffres.');
+  authData.users.admin.pin = newPin;
+  saveAuthData();
+  document.getElementById('oldAdminPin').value = '';
+  document.getElementById('newAdminPin').value = '';
+  alert('PIN administrateur changé.');
+};
+
+document.getElementById('createCashier').onclick = () => {
+  if (!isAdmin()) return alert('Accès administrateur requis.');
+  const name = document.getElementById('cashierName').value.trim();
+  const pin = document.getElementById('cashierPin').value;
+  if (!name || !/^\d{4,6}$/.test(pin)) return alert('Entrez un nom et un PIN de 4 à 6 chiffres.');
+  if (Object.values(authData.users).some(u => u.pin === pin)) return alert('Choisissez un PIN différent.');
+  const id = 'cashier_' + Date.now();
+  authData.users[id] = {name, pin, role: 'cashier', active: true};
+  saveAuthData();
+  document.getElementById('cashierName').value = '';
+  document.getElementById('cashierPin').value = '';
+  renderCashiers();
+  refreshLoginUsers();
+  alert('Compte caissier créé.');
+};
+
+document.getElementById('logoutBtn').onclick = showLogin;
+
+const oldRenderAll = renderAll;
+renderAll = function () {
+  oldRenderAll();
+  if (currentUser) {
+    const who = document.getElementById('whoAmI');
+    if (who) who.textContent = currentUser.name + ' (' + currentUser.role + ')';
+    renderCashiers();
+  }
+};
+
+/* Lancement de l'écran de connexion */
+showLogin();
+
+/* Installation PWA */
+let installPrompt = null;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  installPrompt = e;
+  document.getElementById('installBtn').hidden = false;
+});
+document.getElementById('installBtn').addEventListener('click', async () => {
+  if (installPrompt) {
+    installPrompt.prompt();
+    await installPrompt.userChoice;
+    installPrompt = null;
+  } else {
+    alert('Sur iPhone : ouvrez le site dans Safari, touchez Partager puis Sur l’écran d’accueil.');
+  }
+});
+
+if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}));
+}
+</script>
+</body>
+</html>
